@@ -45,7 +45,7 @@ void drawCube(Cube cube)
     vec3 dim = cube.GetDim();
 
     // Top face
-    for (i = 0; i < dim.z; i++)
+    for (i = dim.z - 1; i >= 0; i--)
     {
         for (j = 0; j < dim.z; j++)
             printf("  ");
@@ -85,7 +85,7 @@ void drawCube(Cube cube)
     for (i = 0; i < dim.y; i++)
     {
         // Left
-        for (j = 0; j < dim.z; j++)
+        for (j = dim.z - 1; j >= 0; j--)
         {
             switch (cube.GetCubie(vec3(0, i, j)).sides[ORANGE])
             {
@@ -178,7 +178,7 @@ void drawCube(Cube cube)
         }
 
         // Back
-        for (j = 0; j < dim.x; j++)
+        for (j = dim.x - 1; j >= 0; j--)
         {
             switch (cube.GetCubie(vec3(j, i, dim.z - 1)).sides[BLUE])
             {
@@ -251,9 +251,18 @@ void drawCube(Cube cube)
 
 int main()
 {
-    vec3 dim = {3, 3, 3};
+    vec3 dim = {3,3,3}; // only NxNxN works
     Cube cube(dim);
 
+    drawCube(cube);
+    printf("\n");
+    cube.Rotate(vec3(1, 0, 0));
+    drawCube(cube);
+    printf("\n");
+    cube.Rotate(vec3(0, 1, 0));
+    drawCube(cube);
+    printf("\n");
+    cube.Rotate(vec3(0, 0, 1));
     drawCube(cube);
 
     return 0;

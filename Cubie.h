@@ -17,6 +17,9 @@ class Cubie
 public:
     enum Color sides[6];
 
+    Cubie() {};
     Cubie(vec3 dim, vec3 pos);
     ~Cubie();
+
+    void Rotate(vec3 r);
 };
