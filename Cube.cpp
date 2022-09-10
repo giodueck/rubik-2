@@ -89,7 +89,7 @@ void Cube::Rotate(vec3 r, vec3 faces)
             break;
         }
     }
-    else if (r.y)
+    else if (r.y) // rotate with respect to up face
     {
         switch (r.y % 4)
         {
@@ -140,7 +140,7 @@ void Cube::Rotate(vec3 r, vec3 faces)
             break;
         }
     }
-    else if (r.z)
+    else if (r.z) // rotate with respect to front face
     {
         switch (r.z % 4)
         {
@@ -197,4 +197,79 @@ void Cube::Rotate(vec3 r, vec3 faces)
             break;
         }
     }
+}
+
+void Cube::X(int dir)
+{
+    this->Rotate(vec3(dir, 0, 0));
+}
+
+void Cube::Y(int dir)
+{
+    this->Rotate(vec3(0, dir, 0));
+}
+
+void Cube::Z(int dir)
+{
+    this->Rotate(vec3(0, 0, dir));
+}
+
+void Cube::F(int dir, int depth, bool slice)
+{
+    this->Rotate(vec3(0, 0, dir), vec3(0, 0, depth));
+    if (slice)
+        this->Rotate(vec3(0, 0, -dir), vec3(0, 0, (depth > 0 ? depth - 1 : depth + 1)));
+}
+
+void Cube::U(int dir, int depth, bool slice)
+{
+    this->Rotate(vec3(0, dir, 0), vec3(0, depth, 0));
+    if (slice)
+        this->Rotate(vec3(0, -dir, 0), vec3(0, (depth > 0 ? depth - 1 : depth + 1), 0));
+}
+
+void Cube::R(int dir, int depth, bool slice)
+{
+    this->Rotate(vec3(dir, 0, 0), vec3(-depth, 0, 0));
+    if (slice)
+        this->Rotate(vec3(-dir, 0, 0), vec3(-(depth > 0 ? depth - 1 : depth + 1), 0, 0));
+}
+
+void Cube::B(int dir, int depth, bool slice)
+{
+    this->Rotate(vec3(0, 0, -dir), vec3(0, 0, -depth));
+    if (slice)
+        this->Rotate(vec3(0, 0, dir), vec3(0, 0, -(depth > 0 ? depth - 1 : depth + 1)));
+}
+
+void Cube::D(int dir, int depth, bool slice)
+{
+    this->Rotate(vec3(0, -dir, 0), vec3(0, -depth, 0));
+    if (slice)
+        this->Rotate(vec3(0, dir, 0), vec3(0, -(depth > 0 ? depth - 1 : depth + 1), 0));
+}
+
+void Cube::L(int dir, int depth, bool slice)
+{
+    this->Rotate(vec3(-dir, 0, 0), vec3(depth, 0, 0));
+    if (slice)
+        this->Rotate(vec3(dir, 0, 0), vec3((depth > 0 ? depth - 1 : depth + 1), 0, 0));
+}
+
+void Cube::M(int dir)
+{
+    this->Rotate(vec3(-dir, 0, 0), vec3(-this->dim.x + 1, 0, 0));
+    this->Rotate(vec3(dir, 0, 0), vec3(-1, 0, 0));
+}
+
+void Cube::E(int dir)
+{
+    this->Rotate(vec3(0, -dir, 0), vec3(0, -this->dim.x + 1, 0));
+    this->Rotate(vec3(0, dir, 0), vec3(0, -1, 0));
+}
+
+void Cube::S(int dir)
+{
+    this->Rotate(vec3(0, 0, dir), vec3(0, 0, -this->dim.x + 1));
+    this->Rotate(vec3(0, 0, -dir), vec3(0, 0, -1));
 }

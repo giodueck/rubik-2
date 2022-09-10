@@ -116,12 +116,12 @@ void Cubie::Rotate(vec3 r)
         {
         case 1: case -3:
             // clockwise
-            // U -> L -> D -> R -> U
-            aux = this->sides[WHITE];
-            this->sides[WHITE] = this->sides[ORANGE];
+            // U -> R -> D -> L -> U
+            aux = this->sides[ORANGE];
             this->sides[ORANGE] = this->sides[YELLOW];
             this->sides[YELLOW] = this->sides[RED];
-            this->sides[RED] = aux;
+            this->sides[RED] = this->sides[WHITE];
+            this->sides[WHITE] = aux;
             break;
         case 2: case -2:
             // double
@@ -135,12 +135,12 @@ void Cubie::Rotate(vec3 r)
             break;
         case 3: case -1:
             // counterclockwise
-            // U -> R -> D -> L -> U
-            aux = this->sides[GREEN];
-            this->sides[GREEN] = this->sides[RED];
-            this->sides[RED] = this->sides[BLUE];
-            this->sides[BLUE] = this->sides[ORANGE];
-            this->sides[ORANGE] = aux;
+            // U -> L -> D -> R -> U
+            aux = this->sides[ORANGE];
+            this->sides[ORANGE] = this->sides[WHITE];
+            this->sides[WHITE] = this->sides[RED];
+            this->sides[RED] = this->sides[YELLOW];
+            this->sides[YELLOW] = aux;
             break;
         
         default:
