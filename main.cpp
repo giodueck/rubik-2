@@ -251,18 +251,21 @@ void drawCube(Cube cube)
 
 int main()
 {
-    vec3 dim = {3,3,3}; // only NxNxN works
+    vec3 dim = {4,4,4}; // only NxNxN works
     Cube cube(dim);
 
     drawCube(cube);
     printf("\n");
-    cube.Rotate(vec3(1, 0, 0));
+    cube.Rotate(vec3(1, 0, 0), vec3(1, 1, 1));
     drawCube(cube);
     printf("\n");
-    cube.Rotate(vec3(0, 1, 0));
+    cube.Rotate(vec3(0, -1, 0), vec3(1, 1, 1));
     drawCube(cube);
     printf("\n");
-    cube.Rotate(vec3(0, 0, 1));
+    cube.Rotate(vec3(0, 0, 2), vec3(1, 1, 2));
+    drawCube(cube);
+    printf("\n");
+    cube.Rotate(vec3(0, 0, 2), vec3(1, 1, 1));
     drawCube(cube);
 
     return 0;

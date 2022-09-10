@@ -15,5 +15,5 @@ public:
     vec3 GetDim() { return dim; }
     Cubie GetCubie(vec3 pos);
 
-    void Rotate(vec3 r);
+    void Rotate(vec3 r, vec3 faces = vec3(0, 0, 0));
 };
