@@ -14,9 +14,9 @@
 
 class Cubie
 {
-private:
-    enum Color sides[6];
 public:
+    enum Color sides[6];
+
     Cubie(vec3 dim, vec3 pos);
     ~Cubie();
 };

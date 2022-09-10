@@ -12,4 +12,6 @@ public:
     Cube();
     Cube(vec3 dim);
     ~Cube();
+    vec3 GetDim() { return dim; }
+    Cubie GetCubie(vec3 pos);
 };

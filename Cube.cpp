@@ -23,3 +23,8 @@ Cube::Cube(vec3 dim)
 Cube::~Cube()
 {
 }
+
+Cubie Cube::GetCubie(vec3 pos)
+{
+    return cubies[pos.x * dim.y * dim.z + pos.y * dim.z + pos.z];
+}
