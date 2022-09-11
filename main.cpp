@@ -251,8 +251,8 @@ void drawCube(Cube cube)
 
 int main()
 {
-    vec3 dim = {3,3,3}; // only NxNxN works
-    Cube cube(dim);
+    Cube cube(3);
+    struct CubeCompact3 cc3 = cube.Compact();
 
     drawCube(cube);
     printf("\n");
@@ -272,8 +272,23 @@ int main()
     cube.D();
     cube.F(2);
     cube.B(-1);
+    cube.Z(-1);
     printf("\n");
     drawCube(cube);
+
+    struct CubeCompact3 cc3s = cube.Compact();
+
+    FILE *fd = fopen("solved.cc3", "wb");
+    fwrite(&cc3, sizeof(struct CubeCompact3), 1, fd);
+    fclose(fd);
+
+    fd = fopen("twisted_checker.cc3", "wb");
+    fwrite(&cc3s, sizeof(struct CubeCompact3), 1, fd);
+    fclose(fd);
+
+    Cube cube3(cc3s);
+    printf("\n");
+    drawCube(cube3);
 
     return 0;
 }

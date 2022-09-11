@@ -18,7 +18,8 @@ public:
     enum Color sides[6];
 
     Cubie() {};
-    Cubie(vec3 dim, vec3 pos);
+    Cubie(int dim, vec3 pos);
+    Cubie(int dim, const vec3 idx, char pos, char rot);
     ~Cubie();
 
     void Rotate(vec3 r);

@@ -5,18 +5,33 @@ Cube::Cube()
     this->dim = vec3(0, 0, 0);
 }
 
-Cube::Cube(vec3 dim)
+Cube::Cube(int dim_)
 {
-    if (dim.x != dim.y || dim.y != dim.z)
-        throw "Only NxNxN cubes work properly!";
-    this->dim = dim;
+    this->dim = vec3(dim_, dim_, dim_);
     for (int i = 0; i < dim.x; i++)
     {
         for (int j = 0; j < dim.y; j++)
         {
             for (int k = 0; k < dim.z; k++)
             {
-                this->cubies.push_back(Cubie(dim, vec3(i, j, k)));
+                this->cubies.push_back(Cubie(dim_, vec3(i, j, k)));
+            }
+        }
+    }
+}
+
+Cube::Cube(struct CubeCompact3 cc3)
+{
+    this->dim = vec3(3, 3, 3);
+    // construct cubie from position and rotation
+    for (int i = 0; i < dim.x; i++)
+    {
+        for (int j = 0; j < dim.y; j++)
+        {
+            for (int k = 0; k < dim.z; k++)
+            {
+                int idx = i * dim.y * dim.z + j * dim.z + k;
+                this->cubies.push_back(Cubie(3, vec3(i, j, k), cc3.cubiePos[idx], cc3.cubieRot[idx]));
             }
         }
     }
@@ -272,4 +287,112 @@ void Cube::S(int dir)
 {
     this->Rotate(vec3(0, 0, dir), vec3(0, 0, -this->dim.x + 1));
     this->Rotate(vec3(0, 0, -dir), vec3(0, 0, -1));
+}
+
+struct CubeCompact3 Cube::Compact()
+{
+    if (dim.x != 3 || dim.y != 3 || dim.z != 3)
+        throw "Must be of dimension 3x3x3!";
+
+    struct CubeCompact3 cc3;
+    vec3 idx3;
+    int idx;
+    Cubie curr;
+    for (int i = 0; i < dim.x; i++)
+    {
+        for (int j = 0; j < dim.y; j++)
+        {
+            for (int k = 0; k < dim.z; k++)
+            {
+                idx3 = vec3(1, 1, 1);
+                idx = i * dim.y * dim.z + j * dim.z + k;
+                curr = this->cubies[idx];
+
+                // Position
+                for (int l = 0; l < 6; l++)
+                {
+                    switch (curr.sides[l])
+                    {
+                    case GREEN:
+                        idx3.z = 0;
+                        break;
+                    case WHITE:
+                        idx3.y = 0;
+                        break;
+                    case RED:
+                        idx3.x = 2;
+                        break;
+                    case BLUE:
+                        idx3.z = 2;
+                        break;
+                    case YELLOW:
+                        idx3.y = 2;
+                        break;
+                    case ORANGE:
+                        idx3.x = 0;
+                        break;
+                    }
+                }
+                cc3.cubiePos[idx] = idx3.x * dim.y * dim.z + idx3.y * dim.z + idx3.z;
+                
+                // Rotation
+                    // center or core piece
+                if (idx3.x == 1 && idx3.y == 1 || idx3.x == 1 && idx3.z == 1 || idx3.y == 1 && idx3.z == 1)
+                {
+                    cc3.cubieRot[idx] = 0;
+                }
+                    // edge piece
+                else if (idx3.x == 1 || idx3.y == 1 || idx3.z == 1)
+                {
+                    bool wy = false;
+                    for (int l = 0; l < 6 && !wy; l++)
+                    {
+                        if (curr.sides[l] == WHITE || curr.sides[l] == YELLOW)
+                            wy = true;
+                    }
+
+                    // Check for good edges looks at White/Yellow edges one way, and at the other 4 another way, but both are
+                    // similar checks.
+                    // This check assumes white on up and green on front, but the centers can be anything, this is
+                    // simply a representation.
+                    if (wy)
+                    {
+                        if (curr.sides[WHITE] == WHITE || curr.sides[WHITE] == YELLOW || curr.sides[YELLOW] == WHITE || curr.sides[YELLOW] == YELLOW
+                        || (curr.sides[GREEN] == WHITE || curr.sides[GREEN] == YELLOW || curr.sides[BLUE] == WHITE || curr.sides[BLUE] == YELLOW) && j == 1)
+                            cc3.cubieRot[idx] = 0;
+                        else
+                            cc3.cubieRot[idx] = 1;
+                    }
+                    else
+                    {
+                        if (curr.sides[WHITE] == GREEN || curr.sides[WHITE] == BLUE || curr.sides[YELLOW] == GREEN || curr.sides[YELLOW] == BLUE
+                        || (curr.sides[GREEN] == GREEN || curr.sides[GREEN] == BLUE || curr.sides[BLUE] == GREEN || curr.sides[BLUE] == BLUE) && j == 1)
+                            cc3.cubieRot[idx] = 0;
+                        else
+                            cc3.cubieRot[idx] = 1;
+                    }
+                }
+
+                    // corner pieces
+                else
+                {
+                    // all corner pieces have either white or yellow, check for where it is
+                    if (curr.sides[WHITE] == WHITE || curr.sides[WHITE] == YELLOW || curr.sides[YELLOW] == WHITE || curr.sides[YELLOW] == YELLOW)
+                        cc3.cubieRot[idx] = 0;
+                    else if (curr.sides[GREEN] == WHITE || curr.sides[GREEN] == YELLOW || curr.sides[BLUE] == WHITE || curr.sides[BLUE] == YELLOW)
+                        cc3.cubieRot[idx] = 1;
+                    else
+                        cc3.cubieRot[idx] = 2;
+                }
+            }
+        }
+    }
+
+    return cc3;
+}
+
+struct CubeCompacter3 Cube::Compacter()
+{
+    struct CubeCompacter3 cr3;
+    return cr3;
 }
