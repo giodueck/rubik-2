@@ -253,6 +253,7 @@ int main()
 {
     Cube cube(3);
     struct CubeCompact3 cc3 = cube.Compact();
+    struct CubeCompacter3 cr3 = cube.Compacter();
 
     drawCube(cube);
     printf("\n");
@@ -276,6 +277,7 @@ int main()
     drawCube(cube);
 
     struct CubeCompact3 cc3s = cube.Compact();
+    struct CubeCompacter3 cr3s = cube.Compacter();
 
     FILE *fd = fopen("solved.cc3", "wb");
     fwrite(&cc3, sizeof(struct CubeCompact3), 1, fd);
@@ -285,7 +287,15 @@ int main()
     fwrite(&cc3s, sizeof(struct CubeCompact3), 1, fd);
     fclose(fd);
 
-    Cube cube3(cc3s);
+    fd = fopen("solved.cr3", "wb");
+    fwrite(&cr3, sizeof(struct CubeCompacter3), 1, fd);
+    fclose(fd);
+
+    fd = fopen("twisted_checker.cr3", "wb");
+    fwrite(&cr3s, sizeof(struct CubeCompacter3), 1, fd);
+    fclose(fd);
+
+    Cube cube3(cr3s);
     printf("\n");
     drawCube(cube3);
 

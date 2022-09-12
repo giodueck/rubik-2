@@ -52,6 +52,7 @@ public:
     Cube();
     Cube(int dim_);
     Cube(struct CubeCompact3 cc3);
+    Cube(struct CubeCompacter3 cr3);
     ~Cube();
 
     vec3 GetDim() { return dim; }

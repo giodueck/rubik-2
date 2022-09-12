@@ -37,6 +37,23 @@ Cube::Cube(struct CubeCompact3 cc3)
     }
 }
 
+Cube::Cube(struct CubeCompacter3 cr3)
+{
+    this->dim = vec3(3, 3, 3);
+    // construct cubie from position and rotation
+    for (int i = 0; i < dim.x; i++)
+    {
+        for (int j = 0; j < dim.y; j++)
+        {
+            for (int k = 0; k < dim.z; k++)
+            {
+                int idx = i * dim.y * dim.z + j * dim.z + k;
+                this->cubies.push_back(Cubie(3, vec3(i, j, k), cr3.cubie[idx] & 0x1F, cr3.cubie[idx] >> 5));
+            }
+        }
+    }
+}
+
 Cube::~Cube()
 {
 }
@@ -394,5 +411,12 @@ struct CubeCompact3 Cube::Compact()
 struct CubeCompacter3 Cube::Compacter()
 {
     struct CubeCompacter3 cr3;
+    struct CubeCompact3 cc3 = Compact();
+
+    for (int i = 0; i < 27; i++)
+    {
+        cr3.cubie[i] = cc3.cubiePos[i] | cc3.cubieRot[i] << 5;
+    }
+    
     return cr3;
 }
