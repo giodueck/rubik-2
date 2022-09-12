@@ -272,7 +272,6 @@ int main()
     cube.D();
     cube.F(2);
     cube.B(-1);
-    cube.Z(-1);
     printf("\n");
     drawCube(cube);
 

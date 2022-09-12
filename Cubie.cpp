@@ -223,7 +223,78 @@ Cubie::Cubie(int dim, const vec3 pos, char idx, char rot)
 
     if (faces == 3) // orient corners
     {
+        // move up corners into FRU, orient, move back
+        if (pos.y == 0)
+        {
+            if (pos.x == 0 && pos.z == 0)
+                Rotate(vec3(0, -1, 0));
+            else if (pos.x == 0)
+                Rotate(vec3(0, 2, 0));
+            else if (pos.z == dim - 1)
+                Rotate(vec3(0, 1, 0));
+            
+            while (sides[WHITE] != WHITE && sides[WHITE] != YELLOW)
+            {
+                Rotate(vec3(-1, 0, 0));
+                Rotate(vec3(0, 0, -1));
+            }
 
+            for (int i = 0; i < rot; i++)
+            {
+                if (pos.x == pos.z)
+                {
+                    Rotate(vec3(0, 0, 1));
+                    Rotate(vec3(1, 0, 0));
+                } else
+                {
+                    Rotate(vec3(-1, 0, 0));
+                    Rotate(vec3(0, 0, -1));
+                }
+            }
+
+            if (pos.x == 0 && pos.z == 0)
+                Rotate(vec3(0, 1, 0));
+            else if (pos.x == 0)
+                Rotate(vec3(0, 2, 0));
+            else if (pos.z == dim - 1)
+                Rotate(vec3(0, -1, 0));
+        }
+        // move down corners into FRD, orient, move back
+        else
+        {
+            if (pos.x == 0 && pos.z == 0)
+                Rotate(vec3(0, -1, 0));
+            else if (pos.x == 0)
+                Rotate(vec3(0, 2, 0));
+            else if (pos.z == dim - 1)
+                Rotate(vec3(0, 1, 0));
+            
+            while (sides[YELLOW] != WHITE && sides[YELLOW] != YELLOW)
+            {
+                Rotate(vec3(1, 0, 0));
+                Rotate(vec3(0, 0, 1));
+            }
+
+            for (int i = 0; i < rot; i++)
+            {
+                if (pos.x == pos.z)
+                {
+                    Rotate(vec3(0, 0, -1));
+                    Rotate(vec3(-1, 0, 0));
+                } else
+                {
+                    Rotate(vec3(1, 0, 0));
+                    Rotate(vec3(0, 0, 1));
+                }
+            }
+
+            if (pos.x == 0 && pos.z == 0)
+                Rotate(vec3(0, 1, 0));
+            else if (pos.x == 0)
+                Rotate(vec3(0, 2, 0));
+            else if (pos.z == dim - 1)
+                Rotate(vec3(0, -1, 0));
+        }
 
         return;
     }
