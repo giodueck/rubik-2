@@ -1,6 +1,7 @@
 #include <cstdio>
 
 #include "Cube.h"
+#include "Parser.h"
 
 //Regular background
 #define BLKB "\e[40m"
@@ -254,25 +255,11 @@ int main()
     Cube cube(3);
     struct CubeCompact3 cc3 = cube.Compact();
     struct CubeCompacter3 cr3 = cube.Compacter();
+    int movCtr = 0;
 
     drawCube(cube);
     printf("\n");
-    cube.F();
-    cube.B(2);
-    cube.R(-1);
-    cube.D(2);
-    cube.B();
-    cube.R();
-    cube.U();
-    cube.D(-1);
-    cube.R();
-    cube.L(-1);
-    cube.D(-1);
-    cube.F(-1);
-    cube.R(2);
-    cube.D();
-    cube.F(2);
-    cube.B(-1);
+    Parser::Parse(cube, "F B2 R' D2 B R U D' R L' D' F' R2 D F2 B'", movCtr);
     printf("\n");
     drawCube(cube);
 
