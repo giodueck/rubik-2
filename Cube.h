@@ -4,8 +4,8 @@
 #include "Cubie.h"
 
 /*
-    CubeCompact3
-    Reduced space cube representation for storing in mass.
+    CompactCube
+    Reduced space (54B) cube representation for storing in mass.
     
     char cubiePos[27]: Flat 3x3x3 matrix which stores cubie indices, numbered by their position
       in the solved cube. These indices indicate which cubie is in which position. If this
@@ -18,15 +18,15 @@
       (always 0, can be ignored), and corners have either white or yellow facing up/down, front/back
       or left/right (0: U/D, 1: F/B, 2: L/R).
 */
-struct CubeCompact3
+typedef struct CompactCube
 {
     char cubiePos[27];
     char cubieRot[27];
-};
+} CompactCube;
 
 /*
-    CubeCompacter3
-    Even more reduced space cube representation for storing in mass.
+    CompacterCube
+    Even more reduced space (27B) cube representation for storing in mass.
 
     Can represent the same information in half the space used by a CubeCompact3.
 
@@ -38,10 +38,10 @@ struct CubeCompact3
 
     0 RR PPPPP
 */
-struct CubeCompacter3
+typedef struct CompacterCube
 {
     char cubie[27];
-};
+} CompacterCube;
 
 class Cube
 {
@@ -52,15 +52,15 @@ private:
 public:
     Cube();
     Cube(int dim_);
-    Cube(struct CubeCompact3 cc3);
-    Cube(struct CubeCompacter3 cr3);
+    Cube(CompactCube cc3);
+    Cube(CompacterCube cr3);
     ~Cube();
 
     vec3 GetDim() { return dim; }
     Cubie GetCubie(vec3 pos);
 
-    struct CubeCompact3 Compact();
-    struct CubeCompacter3 Compacter();
+    CompactCube Compact();
+    CompacterCube Compacter();
 
     void Rotate(vec3 r, vec3 faces = vec3(0, 0, 0));
 

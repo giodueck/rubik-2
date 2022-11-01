@@ -20,7 +20,7 @@ Cube::Cube(int dim_)
     }
 }
 
-Cube::Cube(struct CubeCompact3 cc3)
+Cube::Cube(CompactCube cc3)
 {
     this->dim = vec3(3, 3, 3);
     // construct cubie from position and rotation
@@ -37,7 +37,7 @@ Cube::Cube(struct CubeCompact3 cc3)
     }
 }
 
-Cube::Cube(struct CubeCompacter3 cr3)
+Cube::Cube(CompacterCube cr3)
 {
     this->dim = vec3(3, 3, 3);
     // construct cubie from position and rotation
@@ -306,12 +306,12 @@ void Cube::S(int dir)
     this->Rotate(vec3(0, 0, -dir), vec3(0, 0, -1));
 }
 
-struct CubeCompact3 Cube::Compact()
+CompactCube Cube::Compact()
 {
     if (dim.x != 3 || dim.y != 3 || dim.z != 3)
         throw "Must be of dimension 3x3x3!";
 
-    struct CubeCompact3 cc3;
+    CompactCube cc3;
     vec3 idx3;
     int idx;
     Cubie curr;
@@ -408,10 +408,10 @@ struct CubeCompact3 Cube::Compact()
     return cc3;
 }
 
-struct CubeCompacter3 Cube::Compacter()
+CompacterCube Cube::Compacter()
 {
-    struct CubeCompacter3 cr3;
-    struct CubeCompact3 cc3 = Compact();
+    CompacterCube cr3;
+    CompactCube cc3 = Compact();
 
     for (int i = 0; i < 27; i++)
     {

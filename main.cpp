@@ -253,8 +253,33 @@ void drawCube(Cube cube)
 int main()
 {
     Cube cube(3);
-    struct CubeCompact3 cc3 = cube.Compact();
-    struct CubeCompacter3 cr3 = cube.Compacter();
+    drawCube(cube);
+    printf("\n");
+
+    std::string moves[18] = {
+        "F", "F'", "F2",
+        "B", "B'", "B2",
+        "R", "R'", "R2",
+        "L", "L'", "L2",
+        "U", "U'", "U2",
+        "D", "D'", "D2"
+    };
+    
+    int i = 0;
+    while (i < 50000000)
+        Parser::Move(cube, moves[rand() % 18], i);
+    
+    drawCube(cube);
+    printf("\n");
+
+    return 0;
+}
+
+int main0()
+{
+    Cube cube(3);
+    CompactCube cc3 = cube.Compact();
+    CompacterCube cr3 = cube.Compacter();
     int movCtr = 0;
 
     drawCube(cube);
@@ -263,23 +288,23 @@ int main()
     printf("\n");
     drawCube(cube);
 
-    struct CubeCompact3 cc3s = cube.Compact();
-    struct CubeCompacter3 cr3s = cube.Compacter();
+    CompactCube cc3s = cube.Compact();
+    CompacterCube cr3s = cube.Compacter();
 
     FILE *fd = fopen("solved.cc3", "wb");
-    fwrite(&cc3, sizeof(struct CubeCompact3), 1, fd);
+    fwrite(&cc3, sizeof(CompactCube), 1, fd);
     fclose(fd);
 
     fd = fopen("twisted_checker.cc3", "wb");
-    fwrite(&cc3s, sizeof(struct CubeCompact3), 1, fd);
+    fwrite(&cc3s, sizeof(CompactCube), 1, fd);
     fclose(fd);
 
     fd = fopen("solved.cr3", "wb");
-    fwrite(&cr3, sizeof(struct CubeCompacter3), 1, fd);
+    fwrite(&cr3, sizeof(CompacterCube), 1, fd);
     fclose(fd);
 
     fd = fopen("twisted_checker.cr3", "wb");
-    fwrite(&cr3s, sizeof(struct CubeCompacter3), 1, fd);
+    fwrite(&cr3s, sizeof(CompacterCube), 1, fd);
     fclose(fd);
 
     Cube cube3(cr3s);
