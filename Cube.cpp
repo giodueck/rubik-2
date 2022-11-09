@@ -2,7 +2,17 @@
 
 Cube::Cube()
 {
-    this->dim = vec3(0, 0, 0);
+    this->dim = vec3(3, 3, 3);
+    for (int i = 0; i < dim.x; i++)
+    {
+        for (int j = 0; j < dim.y; j++)
+        {
+            for (int k = 0; k < dim.z; k++)
+            {
+                this->cubies.push_back(Cubie(3, vec3(i, j, k)));
+            }
+        }
+    }
 }
 
 Cube::Cube(int dim_)

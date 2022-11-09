@@ -1,4 +1,8 @@
 #pragma once
+#include "string"
+
+// Shorter alias for CompacterCube
+#define CCube_t CompacterCube
 
 /*
     CompactCube
@@ -43,20 +47,27 @@ typedef struct CompacterCube
     char cubie[27];
 } CompacterCube;
 
+// Functions for handling CompacterCubes directly, which should be more performant since they do
+// not deal with rotation other that bitwise operations and don't have complex data structures
 namespace CCube
 {
-    void X(CompacterCube &cc, int dir = 1);
-    void Y(CompacterCube &cc, int dir = 1);
-    void Z(CompacterCube &cc, int dir = 1);
+    // Create solved CompacterCube
+    CCube_t SolvedCube();
+    // Create scrambled CompacterCube, a NULL or empty string produces a random 40 move scramble
+    CCube_t ScrambledCube(std::string scramble = NULL);
 
-    void F(CompacterCube &cc, int dir = 1, int depth = 1, bool slice = false);
-    void U(CompacterCube &cc, int dir = 1, int depth = 1, bool slice = false);
-    void R(CompacterCube &cc, int dir = 1, int depth = 1, bool slice = false);
-    void B(CompacterCube &cc, int dir = 1, int depth = 1, bool slice = false);
-    void D(CompacterCube &cc, int dir = 1, int depth = 1, bool slice = false);
-    void L(CompacterCube &cc, int dir = 1, int depth = 1, bool slice = false);
+    void X(CCube_t &cc, int dir = 1);
+    void Y(CCube_t &cc, int dir = 1);
+    void Z(CCube_t &cc, int dir = 1);
+
+    void F(CCube_t &cc, int dir = 1);
+    void U(CCube_t &cc, int dir = 1);
+    void R(CCube_t &cc, int dir = 1);
+    void B(CCube_t &cc, int dir = 1);
+    void D(CCube_t &cc, int dir = 1);
+    void L(CCube_t &cc, int dir = 1);
     
-    void M(CompacterCube &cc, int dir = 1);
-    void E(CompacterCube &cc, int dir = 1);
-    void S(CompacterCube &cc, int dir = 1);
+    void M(CCube_t &cc, int dir = 1);
+    void E(CCube_t &cc, int dir = 1);
+    void S(CCube_t &cc, int dir = 1);
 }

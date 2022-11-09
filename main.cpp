@@ -250,7 +250,109 @@ void drawCube(Cube cube)
     }
 }
 
+int MoveTest();
+int CCubeSpeedtest();
+int CubeSpeedtest();
+
 int main()
+{
+    CCubeSpeedtest();
+    return 0;
+}
+
+int MoveTest()
+{
+    Cube c;
+    CCube_t cr = CCube::SolvedCube();
+    int ctr = 0;
+
+    Parser::Parse(c, "F B2 R' D2 B R U D' R L' D' F' R2 D F2 B'", ctr);
+    // drawCube(Cube(cr));
+    drawCube(c);
+    cr = c.Compacter();
+    
+    cr = CCube::SolvedCube();
+    Parser::Parse(cr, "F", ctr);
+    drawCube(Cube(cr));
+    printf("\n");
+    Parser::Parse(cr, "B2", ctr);
+    drawCube(Cube(cr));
+    printf("\n");
+    Parser::Parse(cr, "R'", ctr);
+    drawCube(Cube(cr));
+    printf("\n");
+    Parser::Parse(cr, "D2", ctr);
+    drawCube(Cube(cr));
+    printf("\n");
+    Parser::Parse(cr, "B", ctr);
+    drawCube(Cube(cr));
+    printf("\n");
+    Parser::Parse(cr, "R", ctr);
+    drawCube(Cube(cr));
+    printf("\n");
+    Parser::Parse(cr, "U", ctr);
+    drawCube(Cube(cr));
+    printf("\n");
+    Parser::Parse(cr, "D'", ctr);
+    drawCube(Cube(cr));
+    printf("\n");
+    Parser::Parse(cr, "R", ctr);
+    drawCube(Cube(cr));
+    printf("\n");
+    Parser::Parse(cr, "L'", ctr);
+    drawCube(Cube(cr));
+    printf("\n");
+    Parser::Parse(cr, "D'", ctr);
+    drawCube(Cube(cr));
+    printf("\n");
+    Parser::Parse(cr, "F'", ctr);
+    drawCube(Cube(cr));
+    printf("\n");
+    Parser::Parse(cr, "R2", ctr);
+    drawCube(Cube(cr));
+    printf("\n");
+    Parser::Parse(cr, "D", ctr);
+    drawCube(Cube(cr));
+    printf("\n");
+    Parser::Parse(cr, "F2", ctr);
+    drawCube(Cube(cr));
+    printf("\n");
+    Parser::Parse(cr, "B'", ctr);
+    drawCube(Cube(cr));
+    printf("\n");
+
+    FILE *fd = fopen("ch.cr3", "wb");
+    fwrite(&cr, sizeof(CompacterCube), 1, fd);
+    fclose(fd);
+    return 0;
+}
+
+int CCubeSpeedtest()
+{
+    CCube_t cube = CCube::SolvedCube();
+    drawCube(Cube(cube));
+    printf("\n");
+
+    std::string moves[18] = {
+        "F", "F'", "F2",
+        "B", "B'", "B2",
+        "R", "R'", "R2",
+        "L", "L'", "L2",
+        "U", "U'", "U2",
+        "D", "D'", "D2"
+    };
+    
+    int i = 0;
+    while (i < 50000000)
+        Parser::Move(cube, moves[rand() % 18], i);
+    
+    drawCube(Cube(cube));
+    printf("\n");
+
+    return 0;
+}
+
+int CubeSpeedtest()
 {
     Cube cube(3);
     drawCube(cube);
@@ -272,10 +374,12 @@ int main()
     drawCube(cube);
     printf("\n");
 
+    CCube_t c = cube.Compacter();
+
     return 0;
 }
 
-int main0()
+int demo()
 {
     Cube cube(3);
     CompactCube cc3 = cube.Compact();

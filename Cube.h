@@ -2,7 +2,7 @@
 
 #include <vector>
 #include "Cubie.h"
-#include "CompactCube.h"
+#include "CCube.h"
 
 class Cube
 {
